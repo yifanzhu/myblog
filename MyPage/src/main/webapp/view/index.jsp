@@ -1,4 +1,4 @@
-<%@ page import="com.fasterxml.jackson.annotation.JsonInclude.Include"%>
+<%-- <%@ page import="com.fasterxml.jackson.annotation.JsonInclude.Include"%> --%><!-- for each -->
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%
 String path = request.getContextPath();

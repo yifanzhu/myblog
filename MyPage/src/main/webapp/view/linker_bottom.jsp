@@ -111,7 +111,8 @@
 			reponseText = xmlhttp.responseText;
 			
 			if (reponseText=="true") {			
-				$("#success-post").fadeIn(500).delay(5000).fadeOut(1000);						
+				$("#success-post").fadeIn(500).delay(5000).fadeOut(1000);
+										
 			} else {							
 	  			$("#error-post").fadeIn(500).delay(5000).fadeOut(1000);
 			}			

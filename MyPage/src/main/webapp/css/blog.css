@@ -24,16 +24,33 @@
 	box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 	margin-bottom: 2em;	
 }
-.blog .display-blog {	
-	padding: 2em;
-	box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-	margin-bottom: 2em;	
+.blog .post-blog .success-post p {
+	background-color: rgba(0,128,0,0.1);
+    margin: 0 0 1em 0;
+    padding: 0.3em;
+    font-size: 14px;
+    font-style: italic;
+}
+.blog .post-blog .error-post p {
+	background-color: rgba(128,0,0,0.1);
+    margin: 0 0 1em 0;
+    padding: 0.3em;
+    font-size: 14px;
+    font-style: italic;
 }
 
 .blog .post-blog input[type=checkbox], input[type=radio] {
     margin: 0;
     width: auto;
 }
+.blog .display-blog {	
+	padding: 2em;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+	margin-bottom: 2em;	
+}
+.blog .display-blog .tag .fa {
+	    margin-right: 0.3em;
+	}
 .blog .hr-blog {
 	border-bottom: 2px dashed #ddd;
     margin-bottom: 20px;

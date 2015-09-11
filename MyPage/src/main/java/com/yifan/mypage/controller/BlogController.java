@@ -58,7 +58,7 @@ public class BlogController {
 	}
 	
 	@RequestMapping(value="display.do")
-	public String blogDisplay(HttpServletRequest request, ModelMap modelMap) {
+	public @ResponseBody String blogDisplay(HttpServletRequest request, ModelMap modelMap) {
 		
 		User user = new User();
 		user = (User) request.getSession().getAttribute("user");
@@ -71,9 +71,7 @@ public class BlogController {
 			
 			String displayListJson = JSON.toJSONString(displayList);			
 			modelMap.addAttribute("displayListJson", displayListJson);
-			
-			System.out.println(displayListJson);
-			
+						
 			
 		}
 		

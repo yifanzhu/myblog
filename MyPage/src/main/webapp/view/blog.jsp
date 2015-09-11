@@ -9,14 +9,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
    
-    <title>My JSP 'blog.jsp' starting page</title>
+    <title>Blog</title>
     
 	<!-- Global Style Top -->
     <%@ include file = "linker_top.jsp" %>
     
     <!-- Custom CSS -->
 	<link href="<%=path%>/css/blog.css" rel="stylesheet">
-	
+
 	<!-- Multiple Select -->
 	<link href="<%=path%>/css/multiple-select.css" rel="stylesheet">
 
@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>                        
 		      </button>
-		      <a class="navbar-brand" href="<%=path%>/view/blog.jsp">Blog</a>
+		      <a class="navbar-brand" href="page/showBlogPage.do">Blog</a>
 		    </div>
 		    <div class="collapse navbar-collapse" id="myNavbar">
 		      <ul class="nav navbar-nav">
@@ -50,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">${sessionScope.user.userName}<b class="caret"></b></a>
                     <ul class="dropdown-menu"> 
 		                <li id="sign-out-li">
-		                    <a href="blog/display.do">Sign Out</a>                 
+		                    <a href="javascript:logout()">Sign Out</a>                 
 		                </li> 
 		            </ul> 
 		        </li>
@@ -66,7 +66,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                                                         
                             <form action="javascript:login()">
                                 <div class="modal-body">
-                                	<div id="error-login" class="error">
+                                	<div id="error-login" class="error-login">
 	                                	<p>Wrong Email or Password!</p>
 	                                </div>	                                
                                 	<div class="text">
@@ -127,10 +127,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="row">				
 				<div class="col-lg-8">
 					<div id="post-blog" class="post-blog col-lg-12">
-						<div id="success-post" class="col-lg-12 success">
+						<div id="success-post" class="col-lg-12 success-post">
 		                    <p>Successfully Post!</p>
 		                </div>
-		                <div id="error-post" class="col-lg-12 error">
+		                <div id="error-post" class="col-lg-12 error-post">
 		                    <p>Error Post!</p>
 		                </div>
 						<form action="javascript:post()" method="post">
@@ -144,9 +144,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="form-group">
 									<label for="category">Category</label>					
 									<select id="category" multiple="multiple" >
-					        			<option value="1">1</option>
-					       				<option value="2">2</option>
-					        			<option value="3">3</option>
+					        			
 				    				</select>
 								</div>
 							</div>
@@ -157,33 +155,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
 							</div>
 							<div class="col-lg-12">
-								<button type="submit" class="btn btn-skin pull-right" id="btnPost">Post</button>
+								<button id="btnPost" type="submit" class="btn btn-skin pull-right" >Post</button>
 							</div>
 						</form>
 					</div>
 					
 					<div id="blog">					
-					<!-- <div id="display-blog" class="display-blog col-lg-12">													
-							<h3 id ="blog-title" class="blog-title">title</h3>
-							<div class="tag">
-								<p>	
-									<span><i class="fa fa-user"></i><a href="#">Admin</a></span> 									
-									<span><i class="fa fa-calendar" ></i><a href="#">Juni, 30 2014</a></span>									
-									<span><i class="fa fa-folder" ></i><a href="#">Uncategories</a>, <a href="#">Lanscape</a></span>									
-									<span><i class="fa fa-tag"></i><a href="#">Acesories</a>, <a href="#">Furniture</a></span>
-								</p>
-							</div>
-							<div class="hr-blog"></div>	
-							<div id="blog-content" class="blog-content">
-								<p>content</p>
-							</div>
-							<div class="hr-blog"></div>		
-																		
-					</div> -->
-					</div>
-									
 					
-															
+					</div>
+																													
 				</div><!-- col-lg-8 -->
 			
 				<div class="col-lg-4">
@@ -197,86 +177,70 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div class="sidebar categories">
 						<h4>Categories</h4>
-						<ul>
-							<li>1</li>
-							<li>2</li>
-							<li>3</li>					
+						<ul id="category-sidebar">
+												
 						</ul>		
 					</div>		
 				</div>
 			</div>			
 		</div>
-	</section>
-	
-	
+	</section>	
 		
 	<!-- Global Style Bottom -->
     <%@ include file = "linker_bottom.jsp" %>
+    
+    <!-- Custom Javascript -->
+    <script src="<%=path%>/js/blog.js"></script>
 	
 	<!-- Multiple Select -->
 	<script src="<%=path%>/js/jquery.multiple.select.js"></script>
 	<script>
-        $('#category').multipleSelect({
-        	placeholder: "Select Categories"
-        });       
+		$(document).ready(function (){
+	  		var categoryListJson = ${categoryListJson};
+	  		for(var i = 0; i < categoryListJson.length; i++) {
+	  			document.getElementById("category").innerHTML +=
+	  			"<option value=" + categoryListJson[i].categoryName + ">" + categoryListJson[i].categoryName + "</option>"
+	  			document.getElementById("category-sidebar").innerHTML +=
+	  			"<li>" + categoryListJson[i].categoryName + "</li>"
+	  		} 
+	  		$('#category').multipleSelect({
+        		placeholder: "Select Categories"
+        	}); 		
+	  	}); 	  	             
     </script>
     
+    <script>
+	function myFunction() {
+	    document.getElementById("btnPost").style.color = "red";
+	}
+	</script>
+    <!-- Display Blog -->
     <script type="text/javascript">
-  	$(document).ready(function (){
-  		var displayListJson = ${displayListJson};
-  		
-  		
-  		for (var i = displayListJson.length - 1; i >= 0; i--) { 
-  		 	
-  		 	document.getElementById("blog").innerHTML += "<div id='display-blog' class='display-blog col-lg-12'>"													
-																	+"<h3 id ='blog-title' class='blog-title'>" + displayListJson[i].blogTitle + "</h3>"
-																	+"<div class='tag'>"
-																	+"	<p>"	
-																	+"		<span><i class='fa fa-user'></i><a href='#'>" + displayListJson[i].userName + "</a></span>" 									
-																	+"		<span><i class='fa fa-calendar'></i><a href='#'>" + displayListJson[i].createTime + "</a></span>"									
-																	+"		<span><i class='fa fa-folder' ></i><a href='#'>Uncategories</a>, <a href='#'>Lanscape</a></span>"									
-																	+"		<span><i class='fa fa-tag'></i><a href='#'>Acesories</a>, <a href='#'>Furniture</a></span>"
-																	+"	</p>"
-																	+"</div>"
-																	+"<div class='hr-blog'></div>"	
-																	+"<div id='blog-content' class='blog-content'>"
-																	+"	<p>" + displayListJson[i].blogContent + "</p>"
-																	+"</div>"
-																	+"<div class='hr-blog'></div>"													
-																+"</div>";
-			/* var clonedNode = sourceNode.cloneNode(true); // 克隆节点 
-			clonedNode.setAttribute("id", "div-" + i); // 修改一下id 值，避免id 重复 
-				
-			sourceNode.parentNode.insertBefore(clonedNode, sourceNode); // 在父节点插入克隆 */
- 			
- 			/* var div = document.createElement("div");
- 			var h3 = document.createElement("h3");
-	  		var para = document.createElement("P");
-	  		var para1 = document.createElement("P");
-	  		var para2 = document.createElement("P");
-	  		
-	  		
-	  		var blogTitle = document.createTextNode(displayListJson[i].blogTitle);
-    		var blogContent = document.createTextNode(displayListJson[i].blogContent);
-    		var userName = document.createTextNode(displayListJson[i].userName);
-    		var createTime = document.createTextNode(displayListJson[i].createTime);
-    		
-    		h3.appendChild(blogTitle);
-    		para.appendChild(blogContent);
-    		para1.appendChild(userName);
-    		para2.appendChild(createTime);
-    		
-    		
-    		document.getElementById("blog-list").appendChild(h3);
-    		document.getElementById("blog-list").appendChild(para);
-    		document.getElementById("blog-list").appendChild(para1);
-    		document.getElementById("blog-list").appendChild(para2); */
-    		
-	  		
-  		 } 
-  		
-  		
-  		});   
+	  	$(document).ready(function (){
+	  		var displayListJson = ${displayListJson};		 		
+	  		for (var i = displayListJson.length - 1; i >= 0; i--) { 	 	
+	  		 	document.getElementById("blog").innerHTML += 
+	  		 	"<div id='display-blog' class='display-blog col-lg-12'>"													
+				+"	<h3 id ='blog-title' class='blog-title'>" + displayListJson[i].blogTitle + "</h3>"
+				+"	<div class='tag'>"
+				+"		<p>"
+				+"			<table style='width:100%'>"
+				+"			  <tr>"
+				+"			    <td><span><i class='fa fa-user'></i><a href='#'>" + displayListJson[i].userName + "</a></span></td>"
+				+"			    <td><span><i class='fa fa-calendar'></i><a href='#'>" + displayListJson[i].createTime + "</a></span></td>" 
+				+"			    <td><span><i class='fa fa-tag' ></i><a href='#'>Uncategories</a>, <a href='#'>Lanscape</a></span></td>"
+				+"			  </tr>"		  
+				+"			</table>"															
+				+"		</p>"
+				+"	</div>"
+				+"	<div class='hr-blog'></div>"	
+				+"	<div id='blog-content' class='blog-content'>"
+				+"		<p>" + displayListJson[i].blogContent + "</p>"
+				+"	</div>"
+				+"	<div class='hr-blog'></div>"													
+				+"</div>";		  		
+	  		 } 	
+	  	});   
     </script>
 	
   </body>

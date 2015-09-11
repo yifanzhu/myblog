@@ -11,9 +11,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
+import com.yifan.mypage.entity.Category;
 import com.yifan.mypage.entity.DisplayBlog;
 import com.yifan.mypage.entity.User;
 import com.yifan.mypage.service.BlogService;
+import com.yifan.mypage.service.CategoryService;
 
 @Controller
 @RequestMapping(value="/page")
@@ -22,9 +24,13 @@ public class PageController {
 	@Autowired
 	private BlogService blogService;
 	
+	@Autowired
+	private CategoryService categoryService;
+	
 	@RequestMapping(value="showBlogPage.do")
-	public String showBlogPage (HttpServletRequest request, ModelMap modelMap) {
+	public String showBlogPage (HttpServletRequest request, ModelMap modelMapBlog, ModelMap modelMapCategory) {
 		
+//		Display Blog
 		User user = new User();
 		user = (User) request.getSession().getAttribute("user");
 		
@@ -35,9 +41,22 @@ public class PageController {
 			displayList = blogService.displayBlog(user);
 			
 			String displayListJson = JSON.toJSONString(displayList);			
-			modelMap.addAttribute("displayListJson", displayListJson);
+			modelMapBlog.addAttribute("displayListJson", displayListJson);
 			
 			System.out.println(displayListJson);
+		}
+		
+//		Show Category
+		List<Category> categoryList = new ArrayList<Category>();
+		if (categoryService.showAll() != null) {
+						
+			categoryList = categoryService.showAll();
+			
+			String categoryListJson = JSON.toJSONString(categoryList);
+			modelMapCategory.addAttribute("categoryListJson",categoryListJson);
+			
+			System.out.println(categoryListJson);
+			
 		}
 		return "/blog";
 	}

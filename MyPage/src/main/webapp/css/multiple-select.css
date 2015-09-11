@@ -44,7 +44,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
-    padding-left: 8px;
+    padding-left: 12px;
+    text-align: left;
 }
 
 .ms-choice > span.placeholder {
