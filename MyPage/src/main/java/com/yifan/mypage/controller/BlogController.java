@@ -28,8 +28,10 @@ public class BlogController {
 	private BlogService blogService;
 	
 	@RequestMapping(value="post.do")
-	public @ResponseBody Boolean blogPost(String blogTitle, String blogContent, HttpServletRequest request) {
+	public @ResponseBody Boolean blogPost(String blogTitle, String blogContent, String categoryIds, 
+			HttpServletRequest request, ModelMap modelMap) {
 		
+		System.out.println(categoryIds);
 		boolean flag = false;
 		
 		User user = new User();
@@ -51,6 +53,14 @@ public class BlogController {
 		
 		if (blogService.addBlog(blog, userBlog)) {			
 			flag = true;
+			
+//			List<DisplayBlog> displayListu = new ArrayList<DisplayBlog>();
+//			displayListu = blogService.displayBlog(user);
+//			
+//			String displayListJsonu = JSON.toJSONString(displayListu);			
+//			modelMap.addAttribute("displayListJsonu", displayListJsonu);
+//			System.out.println(displayListJsonu);
+//			
 		};
 		
 		
@@ -58,7 +68,7 @@ public class BlogController {
 	}
 	
 	@RequestMapping(value="display.do")
-	public @ResponseBody String blogDisplay(HttpServletRequest request, ModelMap modelMap) {
+	public String blogDisplay(HttpServletRequest request, ModelMap modelMap) {
 		
 		User user = new User();
 		user = (User) request.getSession().getAttribute("user");

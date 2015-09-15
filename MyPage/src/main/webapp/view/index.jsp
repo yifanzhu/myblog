@@ -414,7 +414,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 		}
 		if (xmlhttp != null) {	
-			xmlhttp.onreadystatechange = state_change;
+			xmlhttp.onreadystatechange = stateChangeLog;
 			xmlhttp.open("GET", "user/login.do?userEmail=" + userEmail.val() + "&userPwd=" + userPwd.val(), false);
 			xmlhttp.send();		
 		} else {
@@ -430,7 +430,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 		}
 		if (xmlhttp != null) {		
-			xmlhttp.onreadystatechange = state_change;
+			xmlhttp.onreadystatechange = stateChangeLog;
 			xmlhttp.open("GET", "user/logout.do", false);
 			xmlhttp.send();
 		} else {
@@ -438,7 +438,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 	}
 	 
-	function state_change() {
+	function stateChangeLog() {
 	
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {			
 			reponseText = xmlhttp.responseText;

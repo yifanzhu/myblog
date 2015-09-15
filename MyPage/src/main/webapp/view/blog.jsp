@@ -160,7 +160,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</form>
 					</div>
 					
-					<div id="blog">					
+					
+					<div id="blog">
+						<div class="post-line" style="display:none">	
+						</div>			
 					
 					</div>
 																													
@@ -199,7 +202,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  		var categoryListJson = ${categoryListJson};
 	  		for(var i = 0; i < categoryListJson.length; i++) {
 	  			document.getElementById("category").innerHTML +=
-	  			"<option value=" + categoryListJson[i].categoryName + ">" + categoryListJson[i].categoryName + "</option>"
+	  			"<option value=" + categoryListJson[i].categoryId + ">" + categoryListJson[i].categoryName + "</option>"
 	  			document.getElementById("category-sidebar").innerHTML +=
 	  			"<li>" + categoryListJson[i].categoryName + "</li>"
 	  		} 
@@ -209,19 +212,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  	}); 	  	             
     </script>
     
-    <script>
-	function myFunction() {
-	    document.getElementById("btnPost").style.color = "red";
-	}
-	</script>
     <!-- Display Blog -->
     <script type="text/javascript">
 	  	$(document).ready(function (){
 	  		var displayListJson = ${displayListJson};		 		
 	  		for (var i = displayListJson.length - 1; i >= 0; i--) { 	 	
 	  		 	document.getElementById("blog").innerHTML += 
-	  		 	"<div id='display-blog' class='display-blog col-lg-12'>"													
-				+"	<h3 id ='blog-title' class='blog-title'>" + displayListJson[i].blogTitle + "</h3>"
+	  		 	"<div id='display-blog-" + i + "' class='display-blog col-lg-12'>"													
+				+"	<h3 id ='blog-title-" + i + "' class='blog-title'>" + displayListJson[i].blogTitle + "</h3>"
 				+"	<div class='tag'>"
 				+"		<p>"
 				+"			<table style='width:100%'>"
@@ -234,7 +232,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				+"		</p>"
 				+"	</div>"
 				+"	<div class='hr-blog'></div>"	
-				+"	<div id='blog-content' class='blog-content'>"
+				+"	<div id='blog-content-" + i + "' class='blog-content'>"
 				+"		<p>" + displayListJson[i].blogContent + "</p>"
 				+"	</div>"
 				+"	<div class='hr-blog'></div>"													
@@ -242,6 +240,93 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  		 } 	
 	  	});   
     </script>
+    
+    <!-- Post Success/Failure -->
+	<script type="text/javascript">
+	var blogTitle, blogContent, categoryId;
+	var reponseText;
+	var xmlhttp = null;
+	
+	function post() {	
+		
+		blogTitle = $("input[name='blogTitle']");
+		blogContent = $("textarea[name='blogContent']"); 
+		categoryIds = $('select').multipleSelect('getSelects');
+		alert(categoryIds);
+		
+		if (window.XMLHttpRequest) {
+		
+			xmlhttp = new XMLHttpRequest();
+		} else { // code for IE6, IE5	
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		if (xmlhttp != null) {	
+			xmlhttp.onreadystatechange = stateChangePost;
+			xmlhttp.open("GET", "blog/post.do?blogTitle=" + blogTitle.val() + "&blogContent=" + blogContent.val() + "&categoryIds=" + categoryIds, false);
+			xmlhttp.send();		
+		} else {
+			alert("Your browser doesn't support XMLHttpRequest!");
+		}
+	}
+	
+	 
+	function stateChangePost() {
+	
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {			
+			reponseText = xmlhttp.responseText;		
+			if (reponseText=="true") {			
+				$("#success-post").fadeIn(500).delay(5000).fadeOut(1000);
+				var currentTime = getCurrentFormatDate();
+				var post = document.createElement("div");
+				post.id="display-blog";
+				post.className="display-blog col-lg-12";
+				post.innerHTML = "<h3 id ='blog-title' class='blog-title'>" +  blogTitle.val() + "</h3>"
+				+"	<div class='tag'>"
+				+"		<p>"
+				+"			<table style='width:100%'>"
+				+"			  <tr>"
+				+"			    <td><span><i class='fa fa-user'></i><a href='#'>${sessionScope.user.userName}</a></span></td>"
+				+"			    <td><span><i class='fa fa-calendar'></i><a href='#'>" + currentTime + "</a></span></td>" 
+				+"			    <td><span><i class='fa fa-tag' ></i><a href='#'>Uncategories</a>, <a href='#'>Lanscape</a></span></td>"
+				+"			  </tr>"		  
+				+"			</table>"															
+				+"		</p>"
+				+"	</div>"
+				+"	<div class='hr-blog'></div>"	
+				+"	<div id='blog-content' class='blog-content'>"
+				+"		<p>" + blogContent.val() + "</p>"
+				+"	</div>"
+				+"	<div class='hr-blog'></div>"													
+				+"</div>";	   	
+				$( post ).insertAfter( ".post-line" );
+								
+			} else {							
+	  			$("#error-post").fadeIn(500).delay(5000).fadeOut(1000);
+			}			
+		}
+	}	
+		
+	function getCurrentFormatDate() {
+	    var date = new Date();
+	    var seperator1 = "/";
+	    var seperator2 = ":";
+	    var year = date.getFullYear();
+	    var month = date.getMonth() + 1;
+	    var strDate = date.getDate();
+	    if (month >= 1 && month <= 9) {
+	        month = "0" + month;
+	    }
+	    if (strDate >= 0 && strDate <= 9) {
+	        strDate = "0" + strDate;
+	    }
+	    var currentdate = year + seperator1 + month + seperator1 + strDate
+	            + " " + date.getHours() + seperator2 + date.getMinutes()
+	            + seperator2 + date.getSeconds();
+	    return currentdate;
+	}
+	
+	</script>	
+	
 	
   </body>
 </html>
