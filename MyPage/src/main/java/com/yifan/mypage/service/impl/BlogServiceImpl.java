@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.yifan.mypage.dao.BlogDao;
 import com.yifan.mypage.entity.Blog;
+import com.yifan.mypage.entity.BlogCategory;
 import com.yifan.mypage.entity.DisplayBlog;
 import com.yifan.mypage.entity.User;
 import com.yifan.mypage.entity.UserBlog;
@@ -26,8 +27,8 @@ public class BlogServiceImpl implements BlogService{
 	}
 	
 	@Override
-	public Boolean addBlog(Blog blog, UserBlog userBlog) {
-		return blogDao.addBlog(blog, userBlog);
+	public Boolean addBlog(Blog blog, UserBlog userBlog, List<BlogCategory> bcList) {
+		return blogDao.addBlog(blog, userBlog, bcList);
 	}
 
 	@Override
@@ -45,6 +46,11 @@ public class BlogServiceImpl implements BlogService{
 	@Override
 	public List<DisplayBlog> displayBlog(User user) {
 		return blogDao.displayBlog(user);
+	}
+
+	@Override
+	public DisplayBlog showPost(Integer blogId) {
+		return blogDao.showPost(blogId);
 	}
 
 	

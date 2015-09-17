@@ -13,7 +13,7 @@ import com.yifan.mypage.entity.User;
 @Repository
 public class LoginInterceptor implements HandlerInterceptor{
 	
-	String visitPage[] = {"index.jsp", "login.do", "logout.do", "showErrorPage.do", "showBlogPage.do"};
+	String visitPage[] = {"index.jsp", "login.do", "logout.do", "showErrorPage.do", "showBlogPage.do", "show.do"};
 
 	@Override
 	public void afterCompletion(HttpServletRequest arg0,

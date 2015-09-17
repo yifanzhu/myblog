@@ -1,13 +1,15 @@
 package com.yifan.mypage.entity;
 
-import javax.persistence.Column;
+import java.util.List;
 
 public class DisplayBlog {
 	
 	private String userName;
+	private Integer blogId;
 	private String blogTitle;
 	private String blogContent;
 	private String createTime;
+	private List<ShowCategory> bcList;
 	
 	public String getUserName() {
 		return this.userName;
@@ -40,6 +42,22 @@ public class DisplayBlog {
 
 	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
+	}
+
+	public List<ShowCategory> getCategoryList() {
+		return bcList;
+	}
+
+	public void setCategoryList(List<ShowCategory> categoryList) {
+		this.bcList = categoryList;
+	}
+
+	public Integer getBlogId() {
+		return blogId;
+	}
+
+	public void setBlogId(Integer blogId) {
+		this.blogId = blogId;
 	}
 
 }

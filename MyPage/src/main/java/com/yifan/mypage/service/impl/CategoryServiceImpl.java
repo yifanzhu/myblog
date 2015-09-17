@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.yifan.mypage.dao.CategoryDao;
 import com.yifan.mypage.entity.Category;
+import com.yifan.mypage.entity.ShowCategory;
 import com.yifan.mypage.service.CategoryService;
 
 @Service("categoryService")
@@ -22,8 +23,15 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
-	public List<Category> showAll() {		
+	public List<ShowCategory> showAll() {		
 		return categoryDao.showAll();
 	}
+
+	@Override
+	public List<Category> saveSelected(List<Integer> categoryIds) {
+		return categoryDao.saveSelected(categoryIds);
+	}
+
+	
 
 }

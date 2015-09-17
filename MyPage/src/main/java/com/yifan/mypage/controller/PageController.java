@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSON;
 import com.yifan.mypage.entity.Category;
 import com.yifan.mypage.entity.DisplayBlog;
+import com.yifan.mypage.entity.ShowCategory;
 import com.yifan.mypage.entity.User;
 import com.yifan.mypage.service.BlogService;
 import com.yifan.mypage.service.CategoryService;
@@ -42,20 +43,17 @@ public class PageController {
 			
 			String displayListJson = JSON.toJSONString(displayList);			
 			modelMapBlog.addAttribute("displayListJson", displayListJson);
-			
-			System.out.println(displayListJson);
+			System.out.println(displayListJson);			
 		}
 		
 //		Show Category
-		List<Category> categoryList = new ArrayList<Category>();
+		List<ShowCategory> categoryList = new ArrayList<ShowCategory>();
 		if (categoryService.showAll() != null) {
 						
 			categoryList = categoryService.showAll();
-			
+					
 			String categoryListJson = JSON.toJSONString(categoryList);
 			modelMapCategory.addAttribute("categoryListJson",categoryListJson);
-			
-			System.out.println(categoryListJson);
 			
 		}
 		return "/blog";
