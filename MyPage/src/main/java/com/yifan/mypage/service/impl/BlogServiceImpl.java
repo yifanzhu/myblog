@@ -53,6 +53,11 @@ public class BlogServiceImpl implements BlogService{
 		return blogDao.showPost(blogId);
 	}
 
+	@Override
+	public List<DisplayBlog> displayCategoryPosts(Integer categoryId) {
+		return blogDao.displayCategoryPosts(categoryId);
+	}
+
 	
 
 }

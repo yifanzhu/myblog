@@ -18,6 +18,7 @@ import com.yifan.mypage.entity.Blog;
 import com.yifan.mypage.entity.BlogCategory;
 import com.yifan.mypage.entity.Category;
 import com.yifan.mypage.entity.DisplayBlog;
+import com.yifan.mypage.entity.ShowCategory;
 import com.yifan.mypage.entity.User;
 import com.yifan.mypage.entity.UserBlog;
 import com.yifan.mypage.service.BlogService;
@@ -123,19 +124,50 @@ public class BlogController {
 	}
 	
 	@RequestMapping(value="show.do")
-	public String postShow(Integer blogId, ModelMap modelMap) {
+	public String postShow(Integer blogId, ModelMap modelMapPost, ModelMap modelMapCategory) {
 		
 		DisplayBlog showPost = new DisplayBlog();
 		if (blogService.showPost(blogId) != null) {
 			showPost = blogService.showPost(blogId);
 			
 			String showPostJson = JSON.toJSONString(showPost);
-			modelMap.addAttribute("showPostJson", showPostJson);
-			System.out.println("controller:"+showPostJson);
-			
-		}		
+			modelMapPost.addAttribute("showPostJson", showPostJson);
+		}
+		
+//		Show All Category
+		List<ShowCategory> categoryList = new ArrayList<ShowCategory>();
+		if (categoryService.showAll() != null) {
+						
+			categoryList = categoryService.showAll();
+					
+			String categoryListJson = JSON.toJSONString(categoryList);
+			modelMapCategory.addAttribute("categoryListJson",categoryListJson);			
+		}
 		
 		return "/post_show";
+		
+	}
+	
+	@RequestMapping(value="categoryPosts.do")
+	public String categoryPosts (Integer categoryId, ModelMap modelMapPosts, ModelMap modelMapCategory) {
+		List<DisplayBlog> blogList = new ArrayList<DisplayBlog>();
+		if (blogService.displayCategoryPosts(categoryId) != null) {
+			blogList = blogService.displayCategoryPosts(categoryId);
+			
+			String blogListJson = JSON.toJSONString(blogList);			
+			modelMapPosts.addAttribute("blogListJson", blogListJson);
+		}
+		
+//		Show All Category
+		List<ShowCategory> categoryList = new ArrayList<ShowCategory>();
+		if (categoryService.showAll() != null) {
+						
+			categoryList = categoryService.showAll();
+					
+			String categoryListJson = JSON.toJSONString(categoryList);
+			modelMapCategory.addAttribute("categoryListJson",categoryListJson);			
+		}
+		return "/category_posts";
 		
 	}
 	

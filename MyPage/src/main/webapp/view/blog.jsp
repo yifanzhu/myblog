@@ -204,7 +204,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  			document.getElementById("category").innerHTML +=
 	  			"<option value=" + categoryListJson[i].categoryId + ">" + categoryListJson[i].categoryName + "</option>"
 	  			document.getElementById("category-sidebar").innerHTML +=
-	  			"<li>" + categoryListJson[i].categoryName + "</li>"
+	  			"<a href='blog/categoryPosts.do?categoryId=" + categoryListJson[i].categoryId + "'>"
+	  			+	"<li>" + categoryListJson[i].categoryName + "</li>"
+	  			+"</a>";
 	  		} 
 	  		$('#category').multipleSelect({
         		placeholder: "Select Categories"
@@ -216,8 +218,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript">
 	  	$(document).ready(function (){
 	  		var displayListJson = ${displayListJson};
-	  		
-	  		alert(displayListJson[0].blogId);	 		
+	  		 		
 	  		for (var i = displayListJson.length - 1; i >= 0; i--) { 	 	
 	  		 	document.getElementById("blog").innerHTML += 
 	  		 	"<div id='display-blog-" + i + "' class='display-blog col-lg-12'>"													

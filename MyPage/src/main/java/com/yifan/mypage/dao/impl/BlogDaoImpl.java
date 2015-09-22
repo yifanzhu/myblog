@@ -165,6 +165,31 @@ public class BlogDaoImpl implements BlogDao{
 		}
 		return null;
 	}
+	
+	@Override
+	public List<DisplayBlog> displayCategoryPosts(Integer categoryId) {
+		List<DisplayBlog> blogList = new ArrayList<DisplayBlog>();
+		try {
+			String hql = "FROM BlogCategory AS bc "
+					+ "WHERE bc.category.categoryId = " + categoryId;				
+			Query query = this.getSession().createQuery(hql);
+			List<BlogCategory> bcList = query.list();
+			
+			for (int i = 0; i < bcList.size(); i++) {
+				DisplayBlog blog = new DisplayBlog();
+				blog.setBlogId(bcList.get(i).getBlog().getBlogId());
+				blog.setBlogTitle(bcList.get(i).getBlog().getBlogTitle());
+				blog.setBlogContent(bcList.get(i).getBlog().getBlogContent());
+				blog.setCreateTime(bcList.get(i).getBlog().getCreateTime());
+				blogList.add(blog);
+			}
+			return blogList;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	
 

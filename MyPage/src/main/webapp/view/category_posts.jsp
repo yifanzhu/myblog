@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="US-ASCII"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>Post</title>
+    <title>Category Posts</title>
     
 	<!-- Global Style Top -->
     <%@ include file = "linker_top.jsp" %>
@@ -19,7 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
   </head>
   
-  <body data-spy="scroll" data-target="#myScrollspy" data-offset="20">   
+   <body data-spy="scroll" data-target="#myScrollspy" data-offset="20">   
    	<header class="header">  
 	  	<nav class="navbar navbar-inverse navbar-fixed-top">
 		  <div class="container-fluid">
@@ -159,38 +159,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <!-- Custom Javascript -->
     <script src="<%=path%>/js/blog.js"></script>
     
-    <!-- Show Post -->
-    <script type="text/javascript">
+    <!-- Show Category Posts -->
+     <script type="text/javascript">
 	  	$(document).ready(function (){
-	  		var showPostJson = ${showPostJson};	 
-	  				 	 	
-	  		 	document.getElementById("blog").innerHTML = 
-	  		 	"<div id='display-blog' class='display-blog col-lg-12'>"													
-				+"	<h3 id ='blog-title' class='blog-title'>" + showPostJson.blogTitle + "</h3>"
+	  		var blogListJson = ${blogListJson};
+	  		 		
+	  		for (var i = blogListJson.length - 1; i >= 0; i--) { 	 	
+	  		 	document.getElementById("blog").innerHTML += 
+	  		 	"<div id='display-blog-" + i + "' class='display-blog col-lg-12'>"													
+				+"	<a href='blog/show.do?blogId=" + blogListJson[i].blogId + "'><h3 id ='blog-title-" + i + "' class='blog-title'>" + blogListJson[i].blogTitle + "</h3></a>"
 				+"	<div class='tag'>"
 				+"		<p>"
 				+"			<table style='width:100%'>"
 				+"			  <tr>"
-				+"			    <td><span><i class='fa fa-user'></i><a href='#'>" + showPostJson.userName + "</a></span></td>"
-				+"			    <td><span><i class='fa fa-calendar'></i><a href='#'>" + showPostJson.createTime + "</a></span></td>" 
-				+"			    <td><span class='post-categories'><i class='fa fa-tag' ></i></span></td>"
+				/* +"			    <td><span><i class='fa fa-user'></i><a href='#'>" + displayListJson[i].userName + "</a></span></td>" */
+				+"			    <td><span><i class='fa fa-calendar'></i><a href='#'>" + blogListJson[i].createTime + "</a></span></td>" 
+				/* +"			    <td><span><i class='fa fa-tag' ></i><a href='#'>" + displayListJson[i].categoryList.categoryName + "</a></span></td>" */
 				+"			  </tr>"		  
 				+"			</table>"															
 				+"		</p>"
 				+"	</div>"
 				+"	<div class='hr-blog'></div>"	
-				+"	<div id='blog-content' class='blog-content'>"
-				+"		<p>" + showPostJson.blogContent + "</p>"
+				+"	<div id='blog-content-" + i + "' class='blog-content'>"
+				+"		<p>" + blogListJson[i].blogContent + "</p>"
 				+"	</div>"
 				+"	<div class='hr-blog'></div>"													
-				+"</div>"; 		
-	  			  		
-	  			for(var i = 0; i < showPostJson.categoryList.length; i++) {	
-	  				var category = document.createElement("a");
-	  				category.href = "blog/categoryPosts.do?categoryId=" + showPostJson.categoryList[i].categoryId;
-	  				category.innerHTML = showPostJson.categoryList[i].categoryName + " ";
-	  				$(".post-categories").append(category);							
-	  			}
+				+"</div>";		  		
+	  		 } 	
 	  	});   
     </script>
     
@@ -209,3 +204,4 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
   </body>
 </html>
+

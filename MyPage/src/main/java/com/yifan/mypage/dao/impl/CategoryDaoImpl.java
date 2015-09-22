@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.yifan.mypage.dao.CategoryDao;
+import com.yifan.mypage.entity.BlogCategory;
 import com.yifan.mypage.entity.Category;
+import com.yifan.mypage.entity.DisplayBlog;
 import com.yifan.mypage.entity.ShowCategory;
 
 @Repository("categoryDao")
@@ -68,5 +70,7 @@ public class CategoryDaoImpl implements CategoryDao{
 		}
 		return null;
 	}
+
+	
 
 }

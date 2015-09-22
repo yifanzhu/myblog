@@ -19,5 +19,6 @@ public interface BlogService {
 	public String updateBlog(Integer id);
 	public List<DisplayBlog> displayBlog(User user);
 	public DisplayBlog showPost(Integer blogId);
+	public List<DisplayBlog> displayCategoryPosts(Integer categoryId);
 
 }
